@@ -1,34 +1,20 @@
 #tag Class
-Protected Class pgscript
-	#tag Method, Flags = &h0
-		Sub Constructor(initdb as PostgreSQLDatabase)
-		  
-		End Sub
-	#tag EndMethod
-
-
-	#tag Note, Name = License
-		pgscript - A simple PostgreSQL script engine
-		--------------------------------------------------
-		(C) 2019 George Poulopoulos
-		Released under the MIT License
-		
-		
-		
-	#tag EndNote
-
-
+Protected Class pgscriptStatement
 	#tag Property, Flags = &h0
-		db As PostgreSQLDatabase
+		AntiStatement As String
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
-		LastError As String
+		LastExecuted As Int64
 	#tag EndProperty
 
+	#tag Property, Flags = &h0
+		RollbackOnFail As Boolean = false
+	#tag EndProperty
 
-	#tag Constant, Name = projectLink, Type = String, Dynamic = False, Default = \"https://github.com/gregorplop/pgscript", Scope = Public
-	#tag EndConstant
+	#tag Property, Flags = &h0
+		Statement As String
+	#tag EndProperty
 
 
 	#tag ViewBehavior
@@ -66,9 +52,9 @@ Protected Class pgscript
 			Type="Integer"
 		#tag EndViewProperty
 		#tag ViewProperty
-			Name="LastError"
+			Name="Statement"
 			Group="Behavior"
-			Type="String"
+			Type="Integer"
 		#tag EndViewProperty
 	#tag EndViewBehavior
 End Class

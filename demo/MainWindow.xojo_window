@@ -54,7 +54,7 @@ Begin Window MainWindow
       Top             =   20
       Transparent     =   False
       Underline       =   False
-      Value           =   0
+      Value           =   2
       Visible         =   True
       Width           =   846
       Begin Listbox ScriptList
@@ -86,7 +86,7 @@ Begin Window MainWindow
          LockBottom      =   True
          LockedInPosition=   False
          LockLeft        =   True
-         LockRight       =   True
+         LockRight       =   False
          LockTop         =   True
          RequiresSelection=   False
          Scope           =   0
@@ -137,7 +137,7 @@ Begin Window MainWindow
          Left            =   474
          LockBottom      =   True
          LockedInPosition=   False
-         LockLeft        =   False
+         LockLeft        =   True
          LockRight       =   True
          LockTop         =   True
          RequiresSelection=   False
@@ -219,7 +219,7 @@ Begin Window MainWindow
          TabIndex        =   3
          TabPanelIndex   =   2
          TabStop         =   True
-         Text            =   "Anti-script"
+         Text            =   "Anti-script (Rollback script)"
          TextAlign       =   0
          TextColor       =   &c00000000
          TextFont        =   "System"
@@ -236,7 +236,7 @@ Begin Window MainWindow
          Bold            =   False
          ButtonStyle     =   "0"
          Cancel          =   False
-         Caption         =   "Load from Clipboard"
+         Caption         =   "Load from Clipboard (hint: use 3 Excel columns)"
          Default         =   False
          Enabled         =   True
          Height          =   36
@@ -248,7 +248,7 @@ Begin Window MainWindow
          LockBottom      =   True
          LockedInPosition=   False
          LockLeft        =   True
-         LockRight       =   False
+         LockRight       =   True
          LockTop         =   False
          Scope           =   0
          TabIndex        =   4
@@ -261,39 +261,7 @@ Begin Window MainWindow
          Transparent     =   False
          Underline       =   False
          Visible         =   True
-         Width           =   219
-      End
-      Begin PushButton LoadAntiscriptBtn
-         AutoDeactivate  =   True
-         Bold            =   False
-         ButtonStyle     =   "0"
-         Cancel          =   False
-         Caption         =   "Load from Clipboard"
-         Default         =   False
-         Enabled         =   True
-         Height          =   36
-         HelpTag         =   ""
-         Index           =   -2147483648
-         InitialParent   =   "MainPanel"
-         Italic          =   False
-         Left            =   474
-         LockBottom      =   True
-         LockedInPosition=   False
-         LockLeft        =   False
-         LockRight       =   True
-         LockTop         =   False
-         Scope           =   0
-         TabIndex        =   5
-         TabPanelIndex   =   2
-         TabStop         =   True
-         TextFont        =   "System"
-         TextSize        =   16.0
-         TextUnit        =   0
-         Top             =   423
-         Transparent     =   False
-         Underline       =   False
-         Visible         =   True
-         Width           =   219
+         Width           =   592
       End
       Begin PushButton RunBtn
          AutoDeactivate  =   True
@@ -360,12 +328,12 @@ Begin Window MainWindow
          Visible         =   True
          Width           =   260
       End
-      Begin PushButton CopySampleScriptBtn
+      Begin PushButton LoadTutorialBtn
          AutoDeactivate  =   True
          Bold            =   False
          ButtonStyle     =   "0"
          Cancel          =   False
-         Caption         =   "Copy Sample"
+         Caption         =   "Load Tutorial"
          Default         =   False
          Enabled         =   True
          Height          =   36
@@ -373,39 +341,7 @@ Begin Window MainWindow
          Index           =   -2147483648
          InitialParent   =   "MainPanel"
          Italic          =   False
-         Left            =   271
-         LockBottom      =   True
-         LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   False
-         LockTop         =   False
-         Scope           =   0
-         TabIndex        =   6
-         TabPanelIndex   =   2
-         TabStop         =   True
-         TextFont        =   "System"
-         TextSize        =   16.0
-         TextUnit        =   0
-         Top             =   423
-         Transparent     =   False
-         Underline       =   False
-         Visible         =   True
-         Width           =   145
-      End
-      Begin PushButton CopySampleScriptBtn1
-         AutoDeactivate  =   True
-         Bold            =   False
-         ButtonStyle     =   "0"
-         Cancel          =   False
-         Caption         =   "Copy Sample"
-         Default         =   False
-         Enabled         =   True
-         Height          =   36
-         HelpTag         =   ""
-         Index           =   -2147483648
-         InitialParent   =   "MainPanel"
-         Italic          =   False
-         Left            =   705
+         Left            =   644
          LockBottom      =   True
          LockedInPosition=   False
          LockLeft        =   False
@@ -422,7 +358,7 @@ Begin Window MainWindow
          Transparent     =   False
          Underline       =   False
          Visible         =   True
-         Width           =   141
+         Width           =   202
       End
       Begin Listbox RunList
          AutoDeactivate  =   True
@@ -563,44 +499,12 @@ Begin Window MainWindow
          Visible         =   True
          Width           =   372
       End
-      Begin PushButton LoadExampleReplacementsBtn
-         AutoDeactivate  =   True
-         Bold            =   False
-         ButtonStyle     =   "0"
-         Cancel          =   False
-         Caption         =   "Load Example"
-         Default         =   False
-         Enabled         =   True
-         Height          =   36
-         HelpTag         =   ""
-         Index           =   -2147483648
-         InitialParent   =   "MainPanel"
-         Italic          =   False
-         Left            =   272
-         LockBottom      =   False
-         LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   False
-         LockTop         =   True
-         Scope           =   0
-         TabIndex        =   2
-         TabPanelIndex   =   3
-         TabStop         =   True
-         TextFont        =   "System"
-         TextSize        =   16.0
-         TextUnit        =   0
-         Top             =   423
-         Transparent     =   False
-         Underline       =   False
-         Visible         =   True
-         Width           =   193
-      End
       Begin PushButton LoadReplacementsBtn
          AutoDeactivate  =   True
          Bold            =   False
          ButtonStyle     =   "0"
          Cancel          =   False
-         Caption         =   "Load from Clipboard"
+         Caption         =   "Load from Clipboard (hint: Use 2 Excel columns)"
          Default         =   False
          Enabled         =   True
          Height          =   36
@@ -612,7 +516,7 @@ Begin Window MainWindow
          LockBottom      =   True
          LockedInPosition=   False
          LockLeft        =   True
-         LockRight       =   False
+         LockRight       =   True
          LockTop         =   False
          Scope           =   0
          TabIndex        =   3
@@ -625,7 +529,7 @@ Begin Window MainWindow
          Transparent     =   False
          Underline       =   False
          Visible         =   True
-         Width           =   220
+         Width           =   806
       End
       Begin TextField hostField
          AcceptTabs      =   False
@@ -961,6 +865,30 @@ End
 
 #tag EndWindowCode
 
+#tag Events ScriptList
+	#tag Event
+		Sub Open()
+		  me.ColumnCount = 1
+		  me.Heading(0) = "Statement"
+		  me.HeaderType(-1) = Listbox.HeaderTypes.NotSortable
+		  me.HasHeading = True
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events AntiScriptList
+	#tag Event
+		Sub Open()
+		  me.ColumnCount = 2
+		  me.Heading(0) = "Statement"
+		  me.Heading(1) = "Rollback"
+		  me.HeaderType(-1) = Listbox.HeaderTypes.NotSortable
+		  me.ColumnWidths = "80%,20%"
+		  me.HasHeading = True
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
 #tag Events passwordField
 	#tag Event
 		Sub Open()
