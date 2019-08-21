@@ -8,7 +8,7 @@ Protected Class pgscriptStatement
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Constructor(newStatement as String, newAntiStatement as String, optional RollbackHere as Boolean = false)
+		Sub Constructor(newStatement as String, newAntiStatement as String)
 		  
 		  
 		End Sub
@@ -29,14 +29,6 @@ Protected Class pgscriptStatement
 
 	#tag Property, Flags = &h0
 		ErrorMessage As String
-	#tag EndProperty
-
-	#tag Property, Flags = &h0
-		LastExecuted As Int64
-	#tag EndProperty
-
-	#tag Property, Flags = &h0
-		RollbackOnFail As Boolean = false
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
@@ -88,17 +80,25 @@ Protected Class pgscriptStatement
 			Name="AntiStatement"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
-			Name="LastExecuted"
-			Group="Behavior"
-			Type="Int64"
-		#tag EndViewProperty
-		#tag ViewProperty
-			Name="RollbackOnFail"
+			Name="Error"
 			Group="Behavior"
 			InitialValue="false"
 			Type="Boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="ErrorCode"
+			Group="Behavior"
+			InitialValue="0"
+			Type="Integer"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="ErrorMessage"
+			Group="Behavior"
+			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 	#tag EndViewBehavior
 End Class

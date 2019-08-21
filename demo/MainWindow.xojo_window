@@ -54,7 +54,7 @@ Begin Window MainWindow
       Top             =   20
       Transparent     =   False
       Underline       =   False
-      Value           =   2
+      Value           =   1
       Visible         =   True
       Width           =   846
       Begin Listbox ScriptList
@@ -86,7 +86,7 @@ Begin Window MainWindow
          LockBottom      =   True
          LockedInPosition=   False
          LockLeft        =   True
-         LockRight       =   False
+         LockRight       =   True
          LockTop         =   True
          RequiresSelection=   False
          Scope           =   0
@@ -137,7 +137,7 @@ Begin Window MainWindow
          Left            =   474
          LockBottom      =   True
          LockedInPosition=   False
-         LockLeft        =   True
+         LockLeft        =   False
          LockRight       =   True
          LockTop         =   True
          RequiresSelection=   False
@@ -236,7 +236,7 @@ Begin Window MainWindow
          Bold            =   False
          ButtonStyle     =   "0"
          Cancel          =   False
-         Caption         =   "Load from Clipboard (hint: use 3 Excel columns)"
+         Caption         =   "Load from Clipboard (hint: use 2 Excel columns)"
          Default         =   False
          Enabled         =   True
          Height          =   36
@@ -412,7 +412,7 @@ Begin Window MainWindow
          _ScrollOffset   =   0
          _ScrollWidth    =   -1
       End
-      Begin Listbox Listbox1
+      Begin Listbox ParameterList
          AutoDeactivate  =   True
          AutoHideScrollbars=   True
          Bold            =   False
@@ -879,11 +879,9 @@ End
 #tag Events AntiScriptList
 	#tag Event
 		Sub Open()
-		  me.ColumnCount = 2
+		  me.ColumnCount = 1
 		  me.Heading(0) = "Statement"
-		  me.Heading(1) = "Rollback"
 		  me.HeaderType(-1) = Listbox.HeaderTypes.NotSortable
-		  me.ColumnWidths = "80%,20%"
 		  me.HasHeading = True
 		  
 		End Sub
@@ -928,7 +926,7 @@ End
 #tag Events projectLink
 	#tag Event
 		Function MouseDown(X As Integer, Y As Integer) As Boolean
-		  ShowURL(pgscript.projectLink)
+		  ShowURL(pgscriptEngine.projectLink)
 		  
 		  
 		End Function

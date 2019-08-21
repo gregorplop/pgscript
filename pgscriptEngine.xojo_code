@@ -2,6 +2,7 @@
 Protected Class pgscriptEngine
 	#tag Method, Flags = &h0
 		Sub Constructor(initdb as PostgreSQLDatabase)
+		  db = initdb
 		  
 		End Sub
 	#tag EndMethod
@@ -23,6 +24,8 @@ Protected Class pgscriptEngine
 		  
 		  Replacements = newReplacements
 		  
+		  return true
+		  
 		End Function
 	#tag EndMethod
 
@@ -43,6 +46,19 @@ Protected Class pgscriptEngine
 
 	#tag Method, Flags = &h0
 		Function Replace() As Boolean
+		  if IsNull(Replacements) then
+		    EngineError = "Replacements not initialized!"
+		    return false
+		  end if
+		  
+		  for i as Integer = 0 to Replacements.Count - 1
+		    for j as Integer = 0 to Statements.Ubound
+		      Statements(j).Statement = Statements(j).Statement.ReplaceAll(Replacements.Key(i).StringValue , Replacements.Value(Replacements.Key(i).StringValue).StringValue)
+		      Statements(j).AntiStatement = Statements(j).AntiStatement.ReplaceAll(Replacements.Key(i).StringValue , Replacements.Value(Replacements.Key(i).StringValue).StringValue)
+		    next j
+		  next i
+		  
+		  return true
 		  
 		End Function
 	#tag EndMethod
@@ -63,7 +79,42 @@ Protected Class pgscriptEngine
 
 	#tag Method, Flags = &h0
 		Function Rollback() As Boolean
+		  EngineError = ""
 		  
+		  if IsNull(db) then 
+		    EngineError = "Database session not initialized!"
+		    return false
+		  end if
+		  
+		  if Cursor > LastPosition then
+		    EngineError = "Cursor points beyond last position!"
+		    return false
+		  end if
+		  
+		  if Cursor < 0 then
+		    EngineError = "Cursor has already reached the beginning!"
+		    Return false
+		  end if
+		  
+		  dim StartPosition as Integer = Cursor
+		  
+		  for i as Integer = StartPosition to 0 step -1
+		    
+		    Cursor = i
+		    
+		    if Statements(i).AntiStatement.Trim <> "" then
+		      db.SQLExecute(Statements(i).AntiStatement)
+		      if db.Error then
+		        Statements(i).Error = true
+		        Statements(i).ErrorCode = db.ErrorCode
+		        Statements(i).ErrorMessage = db.ErrorMessage
+		        return False
+		      end if
+		    end if
+		    
+		  next i
+		  
+		  return true
 		End Function
 	#tag EndMethod
 
@@ -77,17 +128,30 @@ Protected Class pgscriptEngine
 		  end if
 		  
 		  if Cursor > LastPosition then
-		    EngineError = "Cursor points beyond last position"
+		    EngineError = "Cursor points beyond last position!"
 		    return false
 		  end if
 		  
 		  if Cursor < 0 then Cursor = 0
+		  dim StartPosition as Integer = Cursor
 		  
-		  for i as Integer = Cursor to LastPosition
+		  for i as Integer = StartPosition to LastPosition
 		    
-		    db.SQLExecute(Statements(i).Statement)
+		    Cursor = i
+		    
+		    if Statements(i).Statement.Trim <> "" then
+		      db.SQLExecute(Statements(i).Statement)
+		      if db.Error then
+		        Statements(i).Error = true
+		        Statements(i).ErrorCode = db.ErrorCode
+		        Statements(i).ErrorMessage = db.ErrorMessage
+		        return False
+		      end if
+		    end if
 		    
 		  next i
+		  
+		  return true
 		End Function
 	#tag EndMethod
 
@@ -167,6 +231,12 @@ Protected Class pgscriptEngine
 			Group="Behavior"
 			Type="String"
 			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Cursor"
+			Group="Behavior"
+			InitialValue="-1"
+			Type="Integer"
 		#tag EndViewProperty
 	#tag EndViewBehavior
 End Class
