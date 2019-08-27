@@ -8,23 +8,18 @@ Protected Class pgscriptEngine
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function LastPosition() As Integer
-		  Return Statements.Ubound
+		Function CurrentStatement() As pgscriptStatement
+		  if Statements.Ubound < 0 then return nil
+		  if Cursor > Statements.Ubound then return nil
+		  
+		  Return Statements(Cursor)
 		  
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function LoadReplacements(newReplacements as Dictionary) As Boolean
-		  EngineError = ""
-		  if IsNull(newReplacements) then 
-		    EngineError = "Replacements table not initialized!"
-		    Return false
-		  end if
-		  
-		  Replacements = newReplacements
-		  
-		  return true
+		Function LastPosition() As Integer
+		  Return Statements.Ubound
 		  
 		End Function
 	#tag EndMethod
@@ -45,18 +40,24 @@ Protected Class pgscriptEngine
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function Replace() As Boolean
+		Function Replace(newReplacements as Dictionary) As Boolean
+		  Replacements = newReplacements
+		  
 		  if IsNull(Replacements) then
 		    EngineError = "Replacements not initialized!"
 		    return false
 		  end if
 		  
-		  for i as Integer = 0 to Replacements.Count - 1
-		    for j as Integer = 0 to Statements.Ubound
-		      Statements(j).Statement = Statements(j).Statement.ReplaceAll(Replacements.Key(i).StringValue , Replacements.Value(Replacements.Key(i).StringValue).StringValue)
-		      Statements(j).AntiStatement = Statements(j).AntiStatement.ReplaceAll(Replacements.Key(i).StringValue , Replacements.Value(Replacements.Key(i).StringValue).StringValue)
-		    next j
-		  next i
+		  
+		  for j as Integer = 0 to Statements.Ubound
+		    Statements(j).Statement_actual = Statements(j).Statement_template
+		    Statements(j).AntiStatement_actual = Statements(j).AntiStatement_template
+		    
+		    for i as Integer = 0 to Replacements.Count - 1
+		      Statements(j).Statement_actual = Statements(j).Statement_actual.ReplaceAll(Replacements.Key(i).StringValue , Replacements.Value(Replacements.Key(i).StringValue).StringValue)
+		      Statements(j).AntiStatement_actual = Statements(j).AntiStatement_actual.ReplaceAll(Replacements.Key(i).StringValue , Replacements.Value(Replacements.Key(i).StringValue).StringValue)
+		    next i
+		  next j
 		  
 		  return true
 		  
@@ -102,8 +103,8 @@ Protected Class pgscriptEngine
 		    
 		    Cursor = i
 		    
-		    if Statements(i).AntiStatement.Trim <> "" then
-		      db.SQLExecute(Statements(i).AntiStatement)
+		    if Statements(i).AntiStatement_actual.Trim <> "" then
+		      db.SQLExecute(Statements(i).AntiStatement_actual)
 		      if db.Error then
 		        Statements(i).Error = true
 		        Statements(i).ErrorCode = db.ErrorCode
@@ -139,8 +140,8 @@ Protected Class pgscriptEngine
 		    
 		    Cursor = i
 		    
-		    if Statements(i).Statement.Trim <> "" then
-		      db.SQLExecute(Statements(i).Statement)
+		    if Statements(i).Statement_actual.Trim <> "" then
+		      db.SQLExecute(Statements(i).Statement_actual)
 		      if db.Error then
 		        Statements(i).Error = true
 		        Statements(i).ErrorCode = db.ErrorCode
@@ -171,16 +172,16 @@ Protected Class pgscriptEngine
 		Cursor As Integer = -1
 	#tag EndProperty
 
-	#tag Property, Flags = &h0
-		db As PostgreSQLDatabase
+	#tag Property, Flags = &h21
+		Private db As PostgreSQLDatabase
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
 		EngineError As String
 	#tag EndProperty
 
-	#tag Property, Flags = &h0
-		Replacements As Dictionary
+	#tag Property, Flags = &h21
+		Private Replacements As Dictionary
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
