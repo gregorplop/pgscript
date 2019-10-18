@@ -112,11 +112,13 @@ Protected Class pgscriptStatement
 			Name="AntiStatement_actual"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Statement_actual"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 	#tag EndViewBehavior
 End Class
